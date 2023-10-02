@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -19,7 +21,9 @@ public class Chambre implements Serializable {
     private long numeroChambre;
 @Column(name = "TypeC")
     private TypeChambre TypeC;
+
 @ManyToOne
-    @JoinColumn(name = "Bloc_id")
     private Bloc bloc;
+@OneToMany(cascade = CascadeType.ALL)
+    private Set<Reservation> reservations;
 }

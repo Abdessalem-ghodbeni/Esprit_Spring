@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @DynamicUpdate
@@ -25,10 +25,9 @@ public class Foyer implements Serializable {
     private String nomFoyer;
  @Column(name = "capaciteFoyer")
     private long capaciteFoyer;
- @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="Universite_id")
-    private Universite universite;
- @OneToMany(mappedBy = "Foyer")
-    private List<Bloc> bloc;
 
+@OneToOne(mappedBy = "foyer")
+    private Universite universite;
+@OneToMany(cascade = CascadeType.ALL,mappedBy = "foyer")
+    private Set<Bloc>Blocs;
 }

@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,10 +23,9 @@ public class Bloc implements Serializable {
     @Column(name = "capaciteBloc")
     private String capaciteBloc;
 
+@OneToMany(cascade = CascadeType.ALL,mappedBy ="bloc")
+private Set<Chambre> chambres;
 @ManyToOne
-    @JoinColumn(name = "Foyer_id")
-    private Bloc bloc;
-@OneToMany(mappedBy = "bloc")
-    private List<Chambre> chambres=new ArrayList<>();;
+    private Foyer foyer;
 
 }

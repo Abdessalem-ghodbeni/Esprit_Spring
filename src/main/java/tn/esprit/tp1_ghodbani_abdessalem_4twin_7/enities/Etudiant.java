@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -30,7 +29,7 @@ public class Etudiant implements Serializable {
 
      @Temporal(TemporalType.DATE)
     private Date dateNaissance;
-     @ManyToMany(mappedBy = "Etudiant")
-    private Set<Etudiant> etudiants=new HashSet<>();
 
+@ManyToMany(cascade = CascadeType.ALL)
+    private Set<Reservation>reservations;
 }

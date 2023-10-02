@@ -21,7 +21,6 @@ public class Universite implements Serializable {
 
     @Column(name = "adresse")
     private String adresse;
-
-    @OneToOne(mappedBy = "Universite")
+    @OneToOne
     private Foyer foyer;
 }

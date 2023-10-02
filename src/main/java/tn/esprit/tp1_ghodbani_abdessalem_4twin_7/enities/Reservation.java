@@ -6,8 +6,8 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
+
 
 @Getter
 @Setter
@@ -17,19 +17,13 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idReservation")
-    private String idReservation;
+    private long idReservation;
 @Temporal(TemporalType.DATE)
     private Date anneeUniversitaire;
 @Column(name="estValide")
     private boolean estActive;
+@ManyToMany(cascade = CascadeType.ALL,mappedBy = "reservations")
+    private Set<Etudiant>etudiants;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "Etudiant_reservation",
-            joinColumns = @JoinColumn(name = "Etudiant_id"),
-            inverseJoinColumns = @JoinColumn(name = "Reservation_id")
-    )
-
-    private Set<Reservation> reservation =new HashSet<>();
 }
