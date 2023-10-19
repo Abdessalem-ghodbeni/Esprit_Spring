@@ -30,4 +30,7 @@ public class Foyer implements Serializable {
     private Universite universite;
 @OneToMany(cascade = CascadeType.ALL,mappedBy = "foyer")
     private Set<Bloc>Blocs;
+//pour renommer la clé qui serat crrer on ajout joincolumns(......)
+//avec @oneToMany une table d'association sera créer'
+
 }
