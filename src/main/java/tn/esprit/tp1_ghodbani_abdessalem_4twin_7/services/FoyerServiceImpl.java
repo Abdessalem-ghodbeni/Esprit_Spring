@@ -8,45 +8,64 @@ import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IFoyerRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IUniversiteRepository;
 
 import java.util.List;
- @Service
+import java.util.Optional;
+
+@Service
 @RequiredArgsConstructor
-public class FoyerServiceImpl implements IFoyerService{
+public class FoyerServiceImpl implements IFoyerService {
 
-   final IFoyerRepository foyerRepository;
-     final IUniversiteRepository universiteRepository;
-
+    final IFoyerRepository foyerRepository;
+    final IUniversiteRepository universiteRepository;
 
 
     @Override
-    public Foyer ajouterFoyer(Foyer f) {
-        Foyer nouveauFoyer= foyerRepository.save(f);
+    public List<Foyer> retrieveAllFoyers() {
+       List <Foyer> foyers= (List<Foyer>) foyerRepository.findAll();
+       return  foyers;
+    }
+
+    @Override
+    public Foyer addFoyer(Foyer f) {
+        Foyer nouveauFoyer = foyerRepository.save(f);
         return nouveauFoyer;
     }
 
-     @Override
-     public Foyer getFoyer(long idFoyer) {
-        Foyer foyerById= foyerRepository.findById(idFoyer)
-                .orElseThrow(()->new RessourceNotFound("foyer introuvable avec l'id : "+idFoyer));
+    @Override
+    public Foyer retrieveFoyer(long idFoyer) {
+        Foyer foyerById = foyerRepository.findById(idFoyer)
+                .orElseThrow(() -> new RessourceNotFound("foyer introuvable avec l'id : " + idFoyer));
         return foyerById;
-     }
+    }
 
-     @Override
-     public List<Foyer> getAllFoyer() {
-         List<Foyer> foyers= (List<Foyer>) foyerRepository.findAll();
-         return foyers;
 
-     }
-     @Override
-    public void supprimerFoyer(long idFoyer) {
-Foyer foyeeToDeleted=foyerRepository.findById(idFoyer).orElseThrow(()->new RessourceNotFound("Foyer NON TROUVABLE AVEC L'ID"+idFoyer));
-foyerRepository.deleteById(idFoyer);
+    @Override
+    public void removeFoyer(long idFoyer) {
+        Optional<Foyer> foyeeToDeletedExisting = foyerRepository.findById(idFoyer);
+        if (foyeeToDeletedExisting.isPresent()) {
+            foyerRepository.deleteById(idFoyer);
+        } else {
+            throw new RessourceNotFound("foyer non trouve avec id " + idFoyer);
+        }
 
     }
 
-     @Override
-     public Foyer UpdateFoyer(long id_foyer) {
-         return null;
-     }
+
+    @Override
+    public Foyer updateFoyer(Foyer f) {
+
+        Optional<Foyer> exixstingFoyerToUpdated = foyerRepository.findById(f.getIdFoyer());
+        if (exixstingFoyerToUpdated.isPresent()) {
+            Foyer foyerReadyToUpdate = exixstingFoyerToUpdated.get();
+            foyerReadyToUpdate.setNomFoyer(f.getNomFoyer());
+            foyerReadyToUpdate.setCapaciteFoyer(f.getCapaciteFoyer());
+            foyerReadyToUpdate.setUniversite(f.getUniversite());
+            foyerReadyToUpdate.setBlocs(f.getBlocs());
+            return foyerReadyToUpdate;
+        } else {
+            throw new RessourceNotFound("not found this foyer avec id " + f.getIdFoyer());
+        }
+
+    }
 
 
- }
+}
