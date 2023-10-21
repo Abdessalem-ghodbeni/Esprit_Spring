@@ -32,13 +32,9 @@ public class FoyerController {
 
     @GetMapping(path = "/get/all_foyes")
     public ResponseEntity<List<Foyer>> getAllFoyer() {
-//        try {
         List<Foyer> foyers = foyerService.retrieveAllFoyers();
         return ResponseEntity.ok(foyers);
-//        }
-//        catch (RessourceNotFound e ){
-//            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
-//        }
+
 
     }
 
