@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Foyer;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Universite;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IFoyerRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IUniversiteRepository;
 
@@ -20,8 +21,8 @@ public class FoyerServiceImpl implements IFoyerService {
 
     @Override
     public List<Foyer> retrieveAllFoyers() {
-       List <Foyer> foyers= (List<Foyer>) foyerRepository.findAll();
-       return  foyers;
+        List<Foyer> foyers = (List<Foyer>) foyerRepository.findAll();
+        return foyers;
     }
 
     @Override
@@ -66,6 +67,28 @@ public class FoyerServiceImpl implements IFoyerService {
         }
 
     }
+
+    @Override
+    public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
+        Foyer foyer = foyerRepository.findById(idFoyer)
+                .orElseThrow(() -> new RessourceNotFound("Foyer non trouvé avec l'ID : " + idFoyer));
+        Universite universite = universiteRepository.findByNomUniversite(nomUniversite);
+        universite.setFoyer(foyer);
+        return universiteRepository.save(universite);
+    }
+
+    @Override
+    public Universite desaffecterFoyerAUniversite(long idFoyer, long idUniversite) {
+        Foyer foyer = foyerRepository.findById(idFoyer).orElseThrow(() -> new RessourceNotFound("Foyer n'existe pas avec id " + idFoyer));
+        Universite universite = universiteRepository.findById(idUniversite).orElseThrow(() -> new RessourceNotFound("Universite n'existe pas avec id :" + idUniversite));
+        if (universite.getFoyer() != null && universite.getFoyer().getIdFoyer() == idFoyer) {
+            universite.setFoyer(null);
+            return universiteRepository.save(universite);
+        } else {
+            throw new RessourceNotFound("Il n'existe pas de foyer affecté à cette universite avec cet id " + idFoyer);
+        }
+    }
+
 
 
 }

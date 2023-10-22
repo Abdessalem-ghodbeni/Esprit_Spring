@@ -28,4 +28,10 @@ private Set<Chambre> chambres;
 @ManyToOne
     private Foyer foyer;
 
+//    public void addChambre(String numeroChambre) {
+//        Chambre chambre = new Chambre();
+//        chambre.setNumeroChambre(Long.parseLong(numeroChambre)); // definir le num   chambre pour cette instance de Chambre
+//        this.chambres.add(chambre);
+//    }
+
 }

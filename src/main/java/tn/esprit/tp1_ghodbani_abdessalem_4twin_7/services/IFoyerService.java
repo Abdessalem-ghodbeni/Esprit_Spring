@@ -17,6 +17,8 @@ public interface IFoyerService {
     void removeFoyer(long idFoyer);
 
     Foyer updateFoyer(Foyer f);
+    public Universite affecterFoyerAUniversite (long idFoyer, String nomUniversite) ;
+    public Universite desaffecterFoyerAUniversite (long idFoyer, long idUniversite) ;
 
 }
 

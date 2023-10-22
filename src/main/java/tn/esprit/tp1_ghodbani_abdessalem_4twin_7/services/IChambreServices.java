@@ -3,8 +3,10 @@ package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Bloc;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Chambre;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Universite;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IBlocRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IChambreRepository;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class IChambreServices implements IChambreService {
     private final IChambreRepository chambreRepository;
-
+private final IBlocRepository blocRepository;
 
     @Override
     public List<Chambre> retrieveAllChambres() {
@@ -58,4 +60,16 @@ public class IChambreServices implements IChambreService {
            throw new RessourceNotFound("Chambre n'existe pas avec l'id  " +idChambre );
        }
     }
+
+//    public Bloc affecterChambresABloc(List<String> numeroChambre, String nomBloc) {
+//        Bloc bloc = blocRepository.findByNomBloc(nomBloc);
+//        for (String numeroChambres : numeroChambre) {
+//            Chambre chambre = chambreRepository.findByNumChambre(numeroChambres);
+////                    .orElseThrow(() -> new RessourceNotFound("Chambre n'existe pas avec ce numéro : " + numChambre));
+////            bloc.addChambre(chambre);
+//              bloc.addChambre(chambre.toString());
+//        }
+//
+//        return blocRepository.save(bloc);
+//    }
 }

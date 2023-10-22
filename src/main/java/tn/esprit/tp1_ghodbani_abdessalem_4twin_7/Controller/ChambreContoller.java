@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Bloc;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Chambre;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services.IChambreServices;
 
@@ -70,5 +71,9 @@ public class ChambreContoller {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("quelque chose mal passé");
         }
     }
-
+//    @PostMapping("/{nomBloc}/affecterChambres")
+//    public ResponseEntity<Bloc> affecterChambresABloc(@PathVariable String nomBloc, @RequestBody List<String> numeroChambre) {
+//        Bloc bloc = chambreService.affecterChambresABloc(numeroChambre, nomBloc);
+//        return ResponseEntity.ok(bloc);
+//    }
 }

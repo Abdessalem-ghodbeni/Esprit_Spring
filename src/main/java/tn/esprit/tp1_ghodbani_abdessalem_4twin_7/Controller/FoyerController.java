@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Foyer;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Universite;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services.FoyerServiceImpl;
 
 import java.util.List;
@@ -64,4 +65,15 @@ public class FoyerController {
     }
 
 
+    @PutMapping(path = "/{idFoyer}/affecter/{nomUniversite}")
+    public ResponseEntity<Universite> affecterFoyer(@PathVariable("idFoyer") long idFoyer,@PathVariable("nomUniversite") String nomUniversite ){
+        Universite universiteAffecte =foyerService.affecterFoyerAUniversite(idFoyer,nomUniversite);
+        return ResponseEntity.ok().body(universiteAffecte);
+    }
+
+@PutMapping(path = "/{idFoyer}/desaffecter/{idUniversity}")
+    public ResponseEntity<Universite> desaffecterFoyer(@PathVariable("idFoyer") long idFoyer ,@PathVariable("idUniversity")long idUniversity){
+        Universite university=foyerService.desaffecterFoyerAUniversite(idFoyer,idUniversity);
+        return ResponseEntity.ok(university);
+}
 }

@@ -71,7 +71,7 @@ public class UniversityController {
         try {
             universityService.removeUniversity(idUniversity);
             return ResponseEntity.ok("Univeristy deleted successfully");
-        } catch (RessourceNotFound exception) {
+        }catch (RessourceNotFound exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("university with id" + idUniversity + "n'existe pas ");
         }
     }
