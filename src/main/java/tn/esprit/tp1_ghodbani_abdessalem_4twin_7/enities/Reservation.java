@@ -12,18 +12,18 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name="Reservation")
+@Table(name = "Reservation")
 public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idReservation")
     private long idReservation;
-@Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date anneeUniversitaire;
-@Column(name="estValide")
+    @Column(name = "estValide")
     private boolean estActive;
-@ManyToMany(cascade = CascadeType.ALL,mappedBy = "reservations")
-    private Set<Etudiant>etudiants;
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "reservations")
+    private Set<Etudiant> etudiants;
 
 
 }
