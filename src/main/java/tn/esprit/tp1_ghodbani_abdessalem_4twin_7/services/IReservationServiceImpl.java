@@ -16,46 +16,40 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class IReservationServiceImpl implements IReservationService {
     private final IReservationRepository reservationRepository;
+
     @Override
     public List<Reservation> retrieveAllReservation() {
-       Iterable<Reservation> reservations=reservationRepository.findAll();
-       List<Reservation> reservationList=new ArrayList<>();
-       reservations.forEach(reservationList::add);
-       return reservationList;
+        Iterable<Reservation> reservations = reservationRepository.findAll();
+        List<Reservation> reservationList = new ArrayList<>();
+        reservations.forEach(reservationList::add);
+        return reservationList;
     }
 
     @Override
     public Reservation updateReservation(Reservation res) {
-        Optional<Reservation> reservationExisting=reservationRepository.findById(res.getIdReservation());
-        if (reservationExisting.isPresent()){
-            Reservation reservationUpdated=reservationExisting.get();
+        Optional<Reservation> reservationExisting = reservationRepository.findById(res.getIdReservation());
+        if (reservationExisting.isPresent()) {
+            Reservation reservationUpdated = reservationExisting.get();
             reservationUpdated.setAnneeUniversitaire(res.getAnneeUniversitaire());
             reservationUpdated.setEstActive(res.isEstActive());
             reservationUpdated.setEtudiants(res.getEtudiants());
             return reservationUpdated;
-        }
-        else {
-            throw new RessourceNotFound("Failed update ! pas de reservation avec cet id " +res.getIdReservation());
+        } else {
+            throw new RessourceNotFound("Failed update ! pas de reservation avec cet id " + res.getIdReservation());
         }
 
     }
 
     @Override
     public Reservation retrieveReservation(long idReservation) {
-   Optional<Reservation> reservationToget=reservationRepository.findById(idReservation);
-   if (reservationToget.isPresent()){
-       Reservation reservationGetting=reservationToget.get();
-       return  reservationGetting;
-   }
-   else {
-       throw new RessourceNotFound("accune reservation avec l'id :" +idReservation);
-   }
+        Optional<Reservation> reservationToget = reservationRepository.findById(idReservation);
+        if (reservationToget.isPresent()) {
+            Reservation reservationGetting = reservationToget.get();
+            return reservationGetting;
+        } else {
+            throw new RessourceNotFound("accune reservation avec l'id :" + idReservation);
+        }
     }
-
-
-
-   
-
 
 
 }

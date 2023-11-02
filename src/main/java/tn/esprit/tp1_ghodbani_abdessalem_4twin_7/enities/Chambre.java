@@ -20,7 +20,7 @@ public class Chambre implements Serializable {
     @Column(name = "numeroChambre")
     private long numeroChambre;
     @Column(name = "TypeC")
-    private TypeChambre TypeC;
+    private TypeChambre typeC;
 
     @ManyToOne
     private Bloc bloc;

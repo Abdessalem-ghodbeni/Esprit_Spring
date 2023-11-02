@@ -3,6 +3,7 @@ package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Universite;
@@ -35,7 +36,7 @@ public class UniversityController {
             return new ResponseEntity<>(universiteUpdate, HttpStatus.OK);
 
         } catch (RessourceNotFound Exception) {
-            return new ResponseEntity<>("une chose mal passé", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Exception.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -71,8 +72,33 @@ public class UniversityController {
         try {
             universityService.removeUniversity(idUniversity);
             return ResponseEntity.ok("Univeristy deleted successfully");
-        }catch (RessourceNotFound exception) {
+        } catch (RessourceNotFound exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("university with id" + idUniversity + "n'existe pas ");
+        }
+    }
+
+
+    @PutMapping("affecterFoyerUniversity/{idFoyer}/{nomUniversity}")
+    public ResponseEntity<?> affecterFoyerForUniversity(@PathVariable("idFoyer") long idFoyer, @PathVariable("nomUniversity") String nomUniversity) {
+        try {
+            Universite universite = universityService.affecterFoyerAUniversite(idFoyer, nomUniversity);
+            return new ResponseEntity<>(universite, HttpStatus.OK);
+        } catch (RessourceNotFound exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+
+    }
+
+
+    @PutMapping("desaffecter_foyer_from_university/{idFoyer}/{idUniversity}")
+    public ResponseEntity<?> desaffecterFoyerFromUniversity(@PathVariable("idFoyer")long idFoyer,@PathVariable("idUniversity")long idUniversity){
+        try{
+            Universite universite=universityService.desaffecterFoyerAUniversite(idFoyer,idUniversity);
+            return new ResponseEntity<>(universite,HttpStatus.OK);
+        }
+        catch (RessourceNotFound Exception){
+            return new ResponseEntity<>(Exception.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
 }

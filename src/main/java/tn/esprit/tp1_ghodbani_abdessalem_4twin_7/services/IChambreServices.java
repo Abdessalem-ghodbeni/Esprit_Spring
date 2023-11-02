@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class IChambreServices implements IChambreService {
     private final IChambreRepository chambreRepository;
-private final IBlocRepository blocRepository;
+    private final IBlocRepository blocRepository;
 
     @Override
     public List<Chambre> retrieveAllChambres() {
@@ -35,30 +35,28 @@ private final IBlocRepository blocRepository;
 
     @Override
     public Chambre updateChambre(Chambre c) {
-        Optional<Chambre> isExistingChambre=chambreRepository.findById(c.getIdChambre());
-        if (isExistingChambre.isPresent()){
-            Chambre chambreToUpdated=isExistingChambre.get();
+        Optional<Chambre> isExistingChambre = chambreRepository.findById(c.getIdChambre());
+        if (isExistingChambre.isPresent()) {
+            Chambre chambreToUpdated = isExistingChambre.get();
             chambreToUpdated.setNumeroChambre(c.getNumeroChambre());
             chambreToUpdated.setTypeC(c.getTypeC());
             chambreToUpdated.setReservations(c.getReservations());
             chambreToUpdated.setBloc(c.getBloc());
             return chambreToUpdated;
-        }
-        else {
-            throw new RessourceNotFound("Chambre avec id : " +c.getIdChambre() + "n'existe pas ");
+        } else {
+            throw new RessourceNotFound("Chambre avec id : " + c.getIdChambre() + "n'existe pas ");
         }
     }
 
     @Override
     public Chambre retrieveChambre(long idChambre) {
-       Optional<Chambre>chambre=chambreRepository.findById(idChambre);
-       if (chambre.isPresent()){
-           Chambre chambreGetting=chambre.get();
-           return chambreGetting;
-       }
-       else {
-           throw new RessourceNotFound("Chambre n'existe pas avec l'id  " +idChambre );
-       }
+        Optional<Chambre> chambre = chambreRepository.findById(idChambre);
+        if (chambre.isPresent()) {
+            Chambre chambreGetting = chambre.get();
+            return chambreGetting;
+        } else {
+            throw new RessourceNotFound("Chambre n'existe pas avec l'id  " + idChambre);
+        }
     }
 
 //    public Bloc affecterChambresABloc(List<String> numeroChambre, String nomBloc) {

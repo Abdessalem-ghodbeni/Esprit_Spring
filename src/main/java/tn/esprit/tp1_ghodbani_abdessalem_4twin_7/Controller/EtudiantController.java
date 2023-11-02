@@ -35,9 +35,7 @@ public class EtudiantController {
     public ResponseEntity<?> ModifierEtudiant(@RequestBody Etudiant e) {
         try {
             Etudiant etudiantUpdate = etudiantService.updateEtudiant(e);
-            if (etudiantUpdate == null) {
-                return new ResponseEntity<>("Etudiant non trouvale", HttpStatus.NOT_FOUND);
-            }
+
             return new ResponseEntity<>(etudiantUpdate, HttpStatus.OK);
         } catch (RessourceNotFound exception) {
 
@@ -46,26 +44,25 @@ public class EtudiantController {
 
     }
 
-    @GetMapping(path="/recupere/student/{id}")
-    public ResponseEntity<Etudiant>GetEtudiant(@PathVariable("id") long idEtudiant){
-        Etudiant student=etudiantService.retrieveEtudiant(idEtudiant);
+    @GetMapping(path = "/recupere/student/{id}")
+    public ResponseEntity<Etudiant> GetEtudiant(@PathVariable("id") long idEtudiant) {
+        Etudiant student = etudiantService.retrieveEtudiant(idEtudiant);
         return ResponseEntity.ok(student);
 
     }
 
 
     @DeleteMapping(path = "/delete_student/{id}")
-    public ResponseEntity<String> SupprimerStudents(@PathVariable("id") long idStudent){
-     try {
-         etudiantService.removeEtudiant(idStudent);
-         return ResponseEntity.ok("Etudiant deleted Successfuly");
-     }
-     catch (RessourceNotFound exception) {
-         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Etudiant n'existe pas avec id "+idStudent);
-     }
+    public ResponseEntity<String> SupprimerStudents(@PathVariable("id") long idStudent) {
+        try {
+            etudiantService.removeEtudiant(idStudent);
+            return ResponseEntity.ok("Etudiant deleted Successfuly");
+        } catch (RessourceNotFound exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Etudiant n'existe pas avec id " + idStudent);
+        }
 
-     }
     }
+}
 
 
 

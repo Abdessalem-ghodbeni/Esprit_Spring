@@ -45,14 +45,15 @@ public class ChambreContoller {
     }
 
     @PutMapping(path = "/edit")
-    public ResponseEntity<Chambre> EditChambre(@RequestBody Chambre chambre){
+    public ResponseEntity<?> EditChambre(@RequestBody Chambre chambre){
         try{
+
              Chambre nouvelleChambre=chambreService.updateChambre(chambre);
          return new ResponseEntity<>(nouvelleChambre,HttpStatus.OK);
 
         }
         catch (RessourceNotFound exception){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("une chose mal passé",HttpStatus.NOT_FOUND);
         }
 
 

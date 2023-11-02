@@ -7,8 +7,16 @@ import java.util.List;
 public interface IUniversityService {
 
     List<Universite> retrieveAllUniversities();
-    Universite addUniversity (Universite u);
-    Universite updateUniversity (Universite u);
-    Universite retrieveUniversity (long idUniversity);
+
+    Universite addUniversity(Universite u);
+
+    Universite updateUniversity(Universite u);
+
+    Universite retrieveUniversity(long idUniversity);
+
     void removeUniversity(long idUniversity);
+
+    public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite);
+
+    public Universite desaffecterFoyerAUniversite(long idFoyer, long idUniversite);
 }

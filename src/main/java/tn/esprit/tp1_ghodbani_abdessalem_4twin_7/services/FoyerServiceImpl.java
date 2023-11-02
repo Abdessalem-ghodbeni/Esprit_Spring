@@ -27,8 +27,7 @@ public class FoyerServiceImpl implements IFoyerService {
 
     @Override
     public Foyer addFoyer(Foyer f) {
-        Foyer nouveauFoyer = foyerRepository.save(f);
-        return nouveauFoyer;
+        return foyerRepository.save(f);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class FoyerServiceImpl implements IFoyerService {
 
     @Override
     public Foyer updateFoyer(Foyer f) {
-
+//        return foyerRepository.save(f);
         Optional<Foyer> exixstingFoyerToUpdated = foyerRepository.findById(f.getIdFoyer());
         if (exixstingFoyerToUpdated.isPresent()) {
             Foyer foyerReadyToUpdate = exixstingFoyerToUpdated.get();
@@ -66,28 +65,30 @@ public class FoyerServiceImpl implements IFoyerService {
             throw new RessourceNotFound("not found this foyer avec id " + f.getIdFoyer());
         }
 
+
+
     }
 
-    @Override
-    public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
-        Foyer foyer = foyerRepository.findById(idFoyer)
-                .orElseThrow(() -> new RessourceNotFound("Foyer non trouvé avec l'ID : " + idFoyer));
-        Universite universite = universiteRepository.findByNomUniversite(nomUniversite);
-        universite.setFoyer(foyer);
-        return universiteRepository.save(universite);
-    }
+//    @Override
+//    public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
+//        Foyer foyer = foyerRepository.findById(idFoyer)
+//                .orElseThrow(() -> new RessourceNotFound("Foyer non trouvé avec l'ID : " + idFoyer));
+//        Universite universite = universiteRepository.findByNomUniversite(nomUniversite);
+//        universite.setFoyer(foyer);
+//        return universiteRepository.save(universite);
+//    }
 
-    @Override
-    public Universite desaffecterFoyerAUniversite(long idFoyer, long idUniversite) {
-        Foyer foyer = foyerRepository.findById(idFoyer).orElseThrow(() -> new RessourceNotFound("Foyer n'existe pas avec id " + idFoyer));
-        Universite universite = universiteRepository.findById(idUniversite).orElseThrow(() -> new RessourceNotFound("Universite n'existe pas avec id :" + idUniversite));
-        if (universite.getFoyer() != null && universite.getFoyer().getIdFoyer() == idFoyer) {
-            universite.setFoyer(null);
-            return universiteRepository.save(universite);
-        } else {
-            throw new RessourceNotFound("Il n'existe pas de foyer affecté à cette universite avec cet id " + idFoyer);
-        }
-    }
+//    @Override
+//    public Universite desaffecterFoyerAUniversite(long idFoyer, long idUniversite) {
+//        Foyer foyer = foyerRepository.findById(idFoyer).orElseThrow(() -> new RessourceNotFound("Foyer n'existe pas avec id " + idFoyer));
+//        Universite universite = universiteRepository.findById(idUniversite).orElseThrow(() -> new RessourceNotFound("Universite n'existe pas avec id :" + idUniversite));
+//        if (universite.getFoyer() != null && universite.getFoyer().getIdFoyer() == idFoyer) {
+//            universite.setFoyer(null);
+//            return universiteRepository.save(universite);
+//        } else {
+//            throw new RessourceNotFound("Il n'existe pas de foyer affecté à cette universite avec cet id " + idFoyer);
+//        }
+//    }
 
 
 

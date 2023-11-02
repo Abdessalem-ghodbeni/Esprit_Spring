@@ -24,54 +24,43 @@ public class BlocController {
     @GetMapping(path = "/all/blocs")
     public ResponseEntity<?> getAllBlocs() {
         List<Bloc> blocList = blocService.retrieveBlocs();
-return ResponseEntity.ok(blocList);
+        return ResponseEntity.ok(blocList);
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Bloc> AjouterNouveauBloc(@RequestBody Bloc bloc){
-        Bloc BlocNEw=blocService.addBloc(bloc);
+    public ResponseEntity<Bloc> AjouterNouveauBloc(@RequestBody Bloc bloc) {
+        Bloc BlocNEw = blocService.addBloc(bloc);
         return new ResponseEntity<>(BlocNEw, HttpStatus.CREATED);
     }
 
 
-@PutMapping(path = "/edit")
-    public ResponseEntity<?> ModifierBloc(@RequestBody Bloc bloc){
+    @PutMapping(path = "/edit")
+    public ResponseEntity<?> ModifierBloc(@RequestBody Bloc bloc) {
         try {
             Bloc blocUpdating = blocService.updateBloc(bloc);
-            if(blocUpdating==null){
-                return new ResponseEntity<>("No bloc with this id ",HttpStatus.NOT_FOUND);
-
-            }
-            return new ResponseEntity<>(blocUpdating,HttpStatus.OK);
+            return new ResponseEntity<>(blocUpdating, HttpStatus.OK);
+        } catch (RessourceNotFound exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         }
-        catch (RessourceNotFound exception){
-            return new ResponseEntity<>("accun bloc dans la liste",HttpStatus.NOT_FOUND);
-        }
-}
+    }
 
-@GetMapping(path = "/recupere_bloc/{id}")
-public ResponseEntity<?> RecupererBloc(@PathVariable("id")long idBloc){
-            Bloc blocExacte=blocService.retrieveBloc(idBloc);
-            return ResponseEntity.ok(blocExacte);
-}
+    @GetMapping(path = "/recupere_bloc/{id}")
+    public ResponseEntity<?> RecupererBloc(@PathVariable("id") long idBloc) {
+        Bloc blocExacte = blocService.retrieveBloc(idBloc);
+        return ResponseEntity.ok(blocExacte);
+    }
 
 
-
-@DeleteMapping(path="/delete/{id}")
-    public ResponseEntity<String> SupprimerBloc(@PathVariable("id") long idbloc){
-        try{
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<String> SupprimerBloc(@PathVariable("id") long idbloc) {
+        try {
             blocService.removeBloc(idbloc);
             return ResponseEntity.ok("Bloc deleted avec succé");
+        } catch (RessourceNotFound exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("bloc n'existe pas  avec id  " + idbloc);
         }
-        catch (RessourceNotFound exception){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("bloc n'existe pas  avec id  "+idbloc);
-        }
 
-}
-
-
-
-
+    }
 
 
 }

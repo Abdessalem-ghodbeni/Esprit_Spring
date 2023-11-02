@@ -39,13 +39,11 @@ public class FoyerController {
 
     }
 
+
     @PutMapping(path = "/edit")
     public ResponseEntity<?> ModifierFoyer(@RequestBody Foyer f) {
         try {
             Foyer updatedFoyer = foyerService.updateFoyer(f);
-            if (updatedFoyer == null) {
-                return new ResponseEntity<>("Foyer non trouvable", HttpStatus.NOT_FOUND);
-            }
             return new ResponseEntity<>(updatedFoyer, HttpStatus.OK);
         } catch (RessourceNotFound e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -65,15 +63,15 @@ public class FoyerController {
     }
 
 
-    @PutMapping(path = "/{idFoyer}/affecter/{nomUniversite}")
-    public ResponseEntity<Universite> affecterFoyer(@PathVariable("idFoyer") long idFoyer,@PathVariable("nomUniversite") String nomUniversite ){
-        Universite universiteAffecte =foyerService.affecterFoyerAUniversite(idFoyer,nomUniversite);
-        return ResponseEntity.ok().body(universiteAffecte);
-    }
+//    @PutMapping(path = "/{idFoyer}/affecter/{nomUniversite}")
+//    public ResponseEntity<Universite> affecterFoyer(@PathVariable("idFoyer") long idFoyer, @PathVariable("nomUniversite") String nomUniversite) {
+//        Universite universiteAffecte = foyerService.affecterFoyerAUniversite(idFoyer, nomUniversite);
+//        return ResponseEntity.ok().body(universiteAffecte);
+//    }
 
-@PutMapping(path = "/{idFoyer}/desaffecter/{idUniversity}")
-    public ResponseEntity<Universite> desaffecterFoyer(@PathVariable("idFoyer") long idFoyer ,@PathVariable("idUniversity")long idUniversity){
-        Universite university=foyerService.desaffecterFoyerAUniversite(idFoyer,idUniversity);
-        return ResponseEntity.ok(university);
-}
+//    @PutMapping(path = "/{idFoyer}/desaffecter/{idUniversity}")
+//    public ResponseEntity<Universite> desaffecterFoyer(@PathVariable("idFoyer") long idFoyer, @PathVariable("idUniversity") long idUniversity) {
+//        Universite university = foyerService.desaffecterFoyerAUniversite(idFoyer, idUniversity);
+//        return ResponseEntity.ok(university);
+//    }
 }
