@@ -62,5 +62,13 @@ public class BlocController {
 
     }
 
-
+    @PutMapping(path = "affecterChambreA_Bloc/{nomBloc}")
+    public ResponseEntity<?> affecterChambreAbloc( @RequestBody List<Long> numChambres,@PathVariable("nomBloc") String nomBloc) {
+        try {
+//            Bloc bloc = blocService.affecterChambresABloc(numChambres, nomBloc);
+            return new ResponseEntity<>(blocService.affecterChambresABloc(numChambres, nomBloc), HttpStatus.OK);
+        } catch (RessourceNotFound Exception) {
+            return new ResponseEntity<>(Exception.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }

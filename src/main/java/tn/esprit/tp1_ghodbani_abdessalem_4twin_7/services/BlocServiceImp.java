@@ -2,9 +2,12 @@ package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Bloc;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Chambre;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IBlocRepository;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IChambreRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BlocServiceImp implements IBlocService {
     private final IBlocRepository blocRepository;
+    private final IChambreRepository chambreRepository;
 
     @Override
     public List<Bloc> retrieveBlocs() {
@@ -56,4 +60,20 @@ public class BlocServiceImp implements IBlocService {
             throw new RessourceNotFound("accun bloc avec cet id " + idBloc);
         }
     }
+@Transactional
+    @Override
+    public Bloc affecterChambresABloc(List<Long> numChambre, String nomBloc) {
+        Bloc bloc=blocRepository.findByNomBloc(nomBloc);
+        if (!numChambre.isEmpty()){
+            for(Long id:numChambre){
+                Chambre chambre=chambreRepository.findById(id).orElseThrow(()->new RessourceNotFound("accun bloc avec cet id :"+id));
+                chambre.setBloc(bloc);
+
+            }
+            return bloc;
+        }
+        else throw new RessourceNotFound("la liste des numero chambres est vide");
+    }
+
+
 }
