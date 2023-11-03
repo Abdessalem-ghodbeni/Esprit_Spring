@@ -1,5 +1,8 @@
 package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +18,44 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/bloc")
-
+@Tag(name = "Bloc")
 public class BlocController {
 
     private final BlocServiceImp blocService;
 
-
+@Operation(
+        description = "c'est le service Api qui permet de recuperer tous les bloc dans notre base de données ... vous etes les bienvenus",
+        summary = "en effet notre fameuse methode renvoie une liste contient tous les bloc enregistrés dans la base de données",
+        responses = {
+                @ApiResponse(
+                        description = "Success",
+                        responseCode = "200"
+                ),
+                @ApiResponse(
+                        description = "failed ! liste vide ",
+                        responseCode = "404"
+                )
+        }
+)
     @GetMapping(path = "/all/blocs")
     public ResponseEntity<?> getAllBlocs() {
         List<Bloc> blocList = blocService.retrieveBlocs();
         return ResponseEntity.ok(blocList);
     }
-
+    @Operation(
+            description = "c'est le service Api qui permet d'ajouter des blocs dans notre base de données ... vous etes les bienvenus",
+            summary = "en effet notre fameuse methode permet d'ajouter un bloc a notre base de donnée",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "failed ! ",
+                            responseCode = "404"
+                    )
+            }
+    )
     @PostMapping(path = "/add")
     public ResponseEntity<Bloc> AjouterNouveauBloc(@RequestBody Bloc bloc) {
         Bloc BlocNEw = blocService.addBloc(bloc);
