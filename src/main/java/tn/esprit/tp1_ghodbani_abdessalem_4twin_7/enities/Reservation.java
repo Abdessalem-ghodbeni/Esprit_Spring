@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,7 +20,9 @@ public class Reservation implements Serializable {
     @Column(name = "idReservation")
     private long idReservation;
     @Temporal(TemporalType.DATE)
-    private Date anneeUniversitaire;
+    private LocalDate debutAnneeUniversitaire;
+    @Temporal(TemporalType.DATE)
+    private LocalDate finAnneUniversitaire;
     @Column(name = "estValide")
     private boolean estActive;
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "reservations")

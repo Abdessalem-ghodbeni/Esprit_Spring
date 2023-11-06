@@ -15,7 +15,7 @@ import java.util.Set;
 public class Bloc implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="idBloc")
+    @Column(name = "idBloc")
     private long idBloc;
 
     @Column(name = "nomBloc")
@@ -23,9 +23,9 @@ public class Bloc implements Serializable {
     @Column(name = "capaciteBloc")
     private String capaciteBloc;
 
-@OneToMany(cascade = CascadeType.ALL,mappedBy ="bloc")
-private Set<Chambre> chambres;
-@ManyToOne
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "bloc")
+    private Set<Chambre> chambres;
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Foyer foyer;
 
 //    public void addChambre(String numeroChambre) {

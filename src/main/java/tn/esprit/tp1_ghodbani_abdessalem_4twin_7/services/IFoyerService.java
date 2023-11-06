@@ -17,7 +17,7 @@ public interface IFoyerService {
     void removeFoyer(long idFoyer);
 
     Foyer updateFoyer(Foyer f);
-
+Foyer ajouterFoyerEtAffecterUniversite(Foyer f,Long idUniversity);
 
 }
 

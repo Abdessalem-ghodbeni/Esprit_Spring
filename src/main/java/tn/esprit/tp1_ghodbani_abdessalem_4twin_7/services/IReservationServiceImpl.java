@@ -30,7 +30,8 @@ public class IReservationServiceImpl implements IReservationService {
         Optional<Reservation> reservationExisting = reservationRepository.findById(res.getIdReservation());
         if (reservationExisting.isPresent()) {
             Reservation reservationUpdated = reservationExisting.get();
-            reservationUpdated.setAnneeUniversitaire(res.getAnneeUniversitaire());
+            reservationUpdated.setDebutAnneeUniversitaire(res.getDebutAnneeUniversitaire());
+            reservationUpdated.setFinAnneUniversitaire(res.getFinAnneUniversitaire());
             reservationUpdated.setEstActive(res.isEstActive());
             reservationUpdated.setEtudiants(res.getEtudiants());
             return reservationUpdated;

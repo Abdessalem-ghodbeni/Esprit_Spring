@@ -2,14 +2,18 @@ package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Bloc;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Foyer;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Universite;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IBlocRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IFoyerRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IUniversiteRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +21,7 @@ public class FoyerServiceImpl implements IFoyerService {
 
     final IFoyerRepository foyerRepository;
     final IUniversiteRepository universiteRepository;
+    final IBlocRepository blocRepository;
 
 
     @Override
@@ -27,6 +32,8 @@ public class FoyerServiceImpl implements IFoyerService {
 
     @Override
     public Foyer addFoyer(Foyer f) {
+
+
         return foyerRepository.save(f);
     }
 
@@ -68,28 +75,18 @@ public class FoyerServiceImpl implements IFoyerService {
 
 
     }
+    @Transactional
+    @Override
+    public Foyer ajouterFoyerEtAffecterUniversite(Foyer f, Long idUniversity) {
 
-//    @Override
-//    public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
-//        Foyer foyer = foyerRepository.findById(idFoyer)
-//                .orElseThrow(() -> new RessourceNotFound("Foyer non trouvé avec l'ID : " + idFoyer));
-//        Universite universite = universiteRepository.findByNomUniversite(nomUniversite);
-//        universite.setFoyer(foyer);
-//        return universiteRepository.save(universite);
-//    }
-
-//    @Override
-//    public Universite desaffecterFoyerAUniversite(long idFoyer, long idUniversite) {
-//        Foyer foyer = foyerRepository.findById(idFoyer).orElseThrow(() -> new RessourceNotFound("Foyer n'existe pas avec id " + idFoyer));
-//        Universite universite = universiteRepository.findById(idUniversite).orElseThrow(() -> new RessourceNotFound("Universite n'existe pas avec id :" + idUniversite));
-//        if (universite.getFoyer() != null && universite.getFoyer().getIdFoyer() == idFoyer) {
-//            universite.setFoyer(null);
-//            return universiteRepository.save(universite);
-//        } else {
-//            throw new RessourceNotFound("Il n'existe pas de foyer affecté à cette universite avec cet id " + idFoyer);
-//        }
-//    }
-
+      Universite universite=universiteRepository.findById(idUniversity).orElseThrow(()->new RessourceNotFound("id introuvable"+idUniversity));
+       universite.setFoyer(f);
+       for (Bloc aBloc:f.getBlocs()){
+           aBloc.setFoyer(f);
+           blocRepository.save(aBloc);
+       } return f;
+    }
 
 
 }
+

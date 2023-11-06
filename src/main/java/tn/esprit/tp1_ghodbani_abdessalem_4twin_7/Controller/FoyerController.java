@@ -1,6 +1,7 @@
 package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -74,4 +75,18 @@ public class FoyerController {
 //        Universite university = foyerService.desaffecterFoyerAUniversite(idFoyer, idUniversity);
 //        return ResponseEntity.ok(university);
 //    }
+    @PutMapping(path="/addAndAffecte/{idUniversity}")
+    public ResponseEntity<?> ajouterFoyerAffectantUniversity(@PathVariable("idUniversity") Long idUniversity ,@RequestBody Foyer foyer){
+
+       try{
+           Foyer foyerAdded=foyerService.ajouterFoyerEtAffecterUniversite(foyer, idUniversity);
+           return new ResponseEntity<>(foyerAdded,HttpStatus.CREATED);
+       }
+       catch(RessourceNotFound exception){
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       }
+
+
+    }
+
 }

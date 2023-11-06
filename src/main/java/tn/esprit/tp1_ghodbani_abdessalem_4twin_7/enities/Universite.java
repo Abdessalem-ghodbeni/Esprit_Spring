@@ -16,7 +16,7 @@ public class Universite implements Serializable {
     @Column(name = "idUniversite")
     private long idUniversite;
 
-    @Column(name = "nomUniversite")
+    @Column(name = "nomUniversite",unique = true)
     private String nomUniversite;
 
     @Column(name = "adresse")
