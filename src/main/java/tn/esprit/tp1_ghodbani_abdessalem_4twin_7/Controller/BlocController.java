@@ -100,4 +100,16 @@ public class BlocController {
             return new ResponseEntity<>(Exception.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    @PutMapping(path = "affecterBlocAfoyer/{idFoyer}/{idBloc}")
+    public ResponseEntity<?> affecterBlocForFoyer(@PathVariable("idFoyer") long idFoyer,@PathVariable("idBloc")long idBloc){
+    try {
+        Bloc blocAffecte=blocService.affecterBlocAFoyer(idBloc,idFoyer);
+        return new ResponseEntity<>(blocAffecte,HttpStatus.OK);
+    }
+    catch (RessourceNotFound exception){
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    }
 }

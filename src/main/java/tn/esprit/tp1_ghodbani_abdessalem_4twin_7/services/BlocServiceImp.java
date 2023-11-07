@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Bloc;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Chambre;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Foyer;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IBlocRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IChambreRepository;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IFoyerRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class BlocServiceImp implements IBlocService {
     private final IBlocRepository blocRepository;
     private final IChambreRepository chambreRepository;
+    private final IFoyerRepository foyerRepository;
 
     @Override
     public List<Bloc> retrieveBlocs() {
@@ -60,19 +63,28 @@ public class BlocServiceImp implements IBlocService {
             throw new RessourceNotFound("accun bloc avec cet id " + idBloc);
         }
     }
-@Transactional
+
+    @Transactional
     @Override
     public Bloc affecterChambresABloc(List<Long> numChambre, String nomBloc) {
-        Bloc bloc=blocRepository.findByNomBloc(nomBloc);
-        if (!numChambre.isEmpty()){
-            for(Long id:numChambre){
-                Chambre chambre=chambreRepository.findById(id).orElseThrow(()->new RessourceNotFound("accun bloc avec cet id :"+id));
+        Bloc bloc = blocRepository.findByNomBloc(nomBloc);
+        if (!numChambre.isEmpty()) {
+            for (Long id : numChambre) {
+                Chambre chambre = chambreRepository.findById(id).orElseThrow(() -> new RessourceNotFound("accun bloc avec cet id :" + id));
                 chambre.setBloc(bloc);
 
             }
             return bloc;
-        }
-        else throw new RessourceNotFound("la liste des numero chambres est vide");
+        } else throw new RessourceNotFound("la liste des numero chambres est vide");
+    }
+
+    @Transactional
+    @Override
+    public Bloc affecterBlocAFoyer(long idBloc, long idFoyer) {
+        Foyer foyer = foyerRepository.findById(idFoyer).orElseThrow(() -> new RessourceNotFound("foyer non trouvable avec cet id " + idFoyer));
+        Bloc bloc = blocRepository.findById(idBloc).orElseThrow(() -> new RessourceNotFound("Bloc n'exsiste pas avec id " + idBloc));
+        bloc.setFoyer(foyer);
+        return bloc;
     }
 
 
