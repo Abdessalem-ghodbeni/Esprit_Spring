@@ -18,6 +18,11 @@ public class IReservationServiceImpl implements IReservationService {
     private final IReservationRepository reservationRepository;
 
     @Override
+    public Reservation add(Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
+
+    @Override
     public List<Reservation> retrieveAllReservation() {
         Iterable<Reservation> reservations = reservationRepository.findAll();
         List<Reservation> reservationList = new ArrayList<>();
@@ -51,6 +56,8 @@ public class IReservationServiceImpl implements IReservationService {
             throw new RessourceNotFound("accune reservation avec l'id :" + idReservation);
         }
     }
+
+
 
 
 }

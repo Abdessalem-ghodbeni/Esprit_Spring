@@ -60,4 +60,15 @@ public class ReservationContoller {
 
 
     }
+    @PostMapping(path = "/ajouterReservation")
+    public ResponseEntity<?> ajouter_reservation(@RequestBody Reservation reservation){
+        try
+        {
+            Reservation newReservation=reservationService.add(reservation);
+            return new ResponseEntity<>(newReservation,HttpStatus.CREATED);
+        }
+        catch (RessourceNotFound exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
+        }
+    }
 }
