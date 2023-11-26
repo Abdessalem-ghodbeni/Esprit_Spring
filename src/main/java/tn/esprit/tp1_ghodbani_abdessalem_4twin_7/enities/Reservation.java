@@ -25,7 +25,7 @@ public class Reservation implements Serializable {
     private LocalDate finAnneUniversitaire;
     @Column(name = "estValide")
     private boolean estActive;
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "reservations")
+    @ManyToMany(  mappedBy = "reservations")
     private Set<Etudiant> etudiants;
 
 

@@ -1,5 +1,8 @@
 package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/reservations")
+@Tag(name = "Reservation")
 public class ReservationContoller {
     public final IReservationService reservationService;
 
@@ -66,6 +70,31 @@ public class ReservationContoller {
         {
             Reservation newReservation=reservationService.add(reservation);
             return new ResponseEntity<>(newReservation,HttpStatus.CREATED);
+        }
+        catch (RessourceNotFound exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
+        }
+    }
+    @Operation(
+            description = "c'est le service Api qui  permet dajouter reservation et l'affecter a la fois a une chambre et un etudiant",
+            summary = "",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "failed ! ",
+                            responseCode = "404"
+                    )
+            }
+    )
+    @PutMapping(path = "ajouter/affecter/reservation/{idChambre}")
+    public ResponseEntity<?> addAndAffecteReservationToStudentAndChambre(@PathVariable("idChambre")long idChambre,@RequestBody long cinEtudiant)
+    {
+        try{
+            Reservation reservation=reservationService.ajouterReservation(idChambre,cinEtudiant);
+            return new ResponseEntity<>(reservation,HttpStatus.OK);
         }
         catch (RessourceNotFound exception){
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);

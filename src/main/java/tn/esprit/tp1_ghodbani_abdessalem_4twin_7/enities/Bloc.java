@@ -1,5 +1,6 @@
 package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,9 +23,10 @@ public class Bloc implements Serializable {
     private String nomBloc;
     @Column(name = "capaciteBloc")
     private String capaciteBloc;
-
+@JsonIgnore
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "bloc")
     private Set<Chambre> chambres;
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Foyer foyer;
 
