@@ -89,15 +89,28 @@ public class ReservationContoller {
                     )
             }
     )
-    @PutMapping(path = "ajouter/affecter/reservation/{idChambre}")
-    public ResponseEntity<?> addAndAffecteReservationToStudentAndChambre(@PathVariable("idChambre")long idChambre,@RequestBody long cinEtudiant)
-    {
+
+    @PostMapping(path = "ajouter/affecter/reservation/{idChambre}")
+    public ResponseEntity<?> ajouterReservation(@PathVariable Long idChambre, @PathVariable Long cin) {
+       try
+       {
+           return new ResponseEntity<>(reservationService.ajouterReservation(idChambre, cin),HttpStatus.CREATED);
+       }
+       catch (RessourceNotFound ressourceNotFound){
+           return new ResponseEntity<>(ressourceNotFound.getMessage(),HttpStatus.NOT_FOUND);
+       }
+    }
+
+
+
+    @PutMapping(path = "/annulerReservation/{cin}")
+    public ResponseEntity<?>  annulerReservation(@PathVariable Long cin) {
         try{
-            Reservation reservation=reservationService.ajouterReservation(idChambre,cinEtudiant);
-            return new ResponseEntity<>(reservation,HttpStatus.OK);
+            return new ResponseEntity<>(reservationService.annulerReservation(cin),HttpStatus.CREATED);
         }
-        catch (RessourceNotFound exception){
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
+        catch (RessourceNotFound ressourceNotFound){
+            return new ResponseEntity<>(ressourceNotFound.getMessage(),HttpStatus.NOT_FOUND);
         }
+
     }
 }

@@ -7,6 +7,7 @@ import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Chambre;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Etudiant;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Reservation;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.TypeChambre;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IChambreRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IEtudiantRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IReservationRepository;
@@ -77,37 +78,79 @@ public class IReservationServiceImpl implements IReservationService {
     @Transactional
     @Override
     public Reservation ajouterReservation(long idChambre, long cinEtudiant) {
-        Chambre chambre = chambreRepository.findById(idChambre).orElseThrow(() -> new RessourceNotFound("Pas de chambre avec cet ID " + idChambre));
-        Etudiant etudiantByCin = etudiantRepository.findByCin(cinEtudiant);
+//
+        Chambre chambre = chambreRepository.findById(idChambre).orElse(null);
 
-        if (etudiantByCin == null) {
-            throw new RessourceNotFound("Aucun étudiant trouvé avec ce CIN " + cinEtudiant);
-        }
+        Etudiant etudiant = etudiantRepository.findByCin(cinEtudiant);
 
+        // Création de la réservation
         Reservation reservation = new Reservation();
-        reservation.setDebutAnneeUniversitaire(LocalDate.now()); // ou la date appropriée
-        reservation.setFinAnneUniversitaire(LocalDate.now().plusMonths(9)); // ou la date appropriée
+        assert chambre != null;
+        reservation.setNumReservation(chambre.getNumeroChambre() +"-"+ chambre.getBloc().getNomBloc().replace(" ", "") +"-"+ cinEtudiant);
+        reservation.setDebutAnneeUniversitaire(LocalDate.of(LocalDate.now().getYear(), 9, 1));
+        reservation.setFinAnneUniversitaire(LocalDate.of(LocalDate.now().getYear() + 1, 6, 1));
         reservation.setEstActive(true);
 
-        Reservation newReservation = this.add(reservation);
-
-        Set<Reservation> etudiantReservations = etudiantByCin.getReservations();
-        if (etudiantReservations == null) {
-            etudiantReservations = new HashSet<>();
+        // Déterminer la capacité maximale en fonction du type de chambre
+        int capaciteMax = 0;
+        if (TypeChambre.SIMPLE.equals(chambre.getTypeC())) {
+            capaciteMax = 1;
+        } else if (TypeChambre.DOUBLE.equals(chambre.getTypeC())) {
+            capaciteMax = 2;
+        } else if (TypeChambre.TRIPLE.equals(chambre.getTypeC())) {
+            capaciteMax = 3;
         }
-        etudiantReservations.add(newReservation);
-        etudiantByCin.setReservations(etudiantReservations);
 
-        Set<Reservation> chambreReservations = chambre.getReservations();
-        if (chambreReservations == null) {
-            chambreReservations = new HashSet<>();
+        // Vérifier si la capacité maximale de la chambre est atteinte
+        long nombreReservations = chambre.getReservations().size();
+        if (nombreReservations >= capaciteMax) {
+            throw new IllegalStateException("La capacité maximale de la chambre est atteinte.");
         }
-        chambreReservations.add(newReservation);
-        chambre.setReservations(chambreReservations);
 
-        return newReservation;
+        // Gérer la relation ManyToMany
+        Set<Etudiant> etudiants = new HashSet<>();
+        etudiants.add(etudiant);
+        reservation.setEtudiants(etudiants);
+
+        // Sauvegarder la réservation
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        // Ajouter la réservation à la collection de réservations de la chambre et sauvegarder
+        chambre.getReservations().add(savedReservation);
+        chambreRepository.save(chambre);
+
+        return savedReservation;
     }
 
+
+
+    @Override
+    public Reservation annulerReservation(Long cinEtudiant) {
+        // Trouver l'étudiant et sa réservation
+        Etudiant etudiant = etudiantRepository.findByCin(cinEtudiant);
+
+        // Supposition: chaque étudiant a au maximum une réservation valide
+        Reservation reservation = etudiant.getReservations().stream()
+                .filter(Reservation::isEstActive)
+                .findFirst()
+                .orElse(null);
+
+        // Mettre à jour l'état de la réservation
+        reservation.setEstActive(false);
+
+        // Désaffecter l'étudiant
+        reservation.getEtudiants().remove(etudiant);
+
+        // Désaffecter la chambre associée et mettre à jour sa capacité
+        Chambre chambreAssociee = chambreRepository.findByReservationsContains(reservation);
+        if (chambreAssociee != null) {
+            chambreAssociee.getReservations().remove(reservation);
+            chambreRepository.save(chambreAssociee); // Sauvegarder les changements dans la chambre
+        }
+
+        // Sauvegarder les modifications
+        return reservationRepository.save(reservation);
+    }
 
 
 }

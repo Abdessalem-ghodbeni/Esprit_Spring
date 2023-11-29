@@ -19,12 +19,16 @@ public class Reservation implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idReservation")
     private long idReservation;
+    @Column(name = "numReservation")
+    private  String numReservation;
+
+
     @Temporal(TemporalType.DATE)
     private LocalDate debutAnneeUniversitaire;
     @Temporal(TemporalType.DATE)
     private LocalDate finAnneUniversitaire;
     @Column(name = "estValide")
-    private boolean estActive;
+     boolean estActive;
     @ManyToMany(  mappedBy = "reservations")
     private Set<Etudiant> etudiants;
 
