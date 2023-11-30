@@ -25,10 +25,10 @@ public class EtudiantServiceImp implements IEtudiantServices {
 
     @Override
     public Etudiant updateEtudiant(Etudiant e) {
-        Optional<Etudiant> existingEtudiant = etudiantRepository.findById(e.getIdEtudiant());
+        Optional<Etudiant> existingEtudiant = etudiantRepository.findById(e.getId());
         if (existingEtudiant.isPresent()) {
             Etudiant etudiantUpdated = existingEtudiant.get();
-            etudiantUpdated.setNomEtudiant(e.getNomEtudiant());
+            etudiantUpdated.setNom(e.getNom());
             etudiantUpdated.setPrenom(e.getPrenom());
             etudiantUpdated.setCin(e.getCin());
             etudiantUpdated.setDateNaissance(e.getDateNaissance());
@@ -37,7 +37,7 @@ public class EtudiantServiceImp implements IEtudiantServices {
             return etudiantUpdated;
 
         } else {
-            throw new RessourceNotFound("etudiant not found avec id : " + e.getIdEtudiant());
+            throw new RessourceNotFound("etudiant not found avec id : " + e.getId());
         }
 
 
