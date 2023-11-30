@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path="/chambre")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ChambreContoller {
     private final IChambreServices chambreService;
 

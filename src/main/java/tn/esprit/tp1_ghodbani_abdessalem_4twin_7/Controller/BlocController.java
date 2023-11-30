@@ -15,7 +15,7 @@ import java.security.PublicKey;
 import java.util.List;
 
 @RestController
-
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping(path = "/bloc")
 @Tag(name = "Bloc")

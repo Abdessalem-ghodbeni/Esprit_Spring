@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.*;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IAdminRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IEtudiantRepository;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.repository.IUserRepository;
 
@@ -17,6 +18,7 @@ import java.util.HashMap;
 public class IAuthenticationServicesImpl implements IAuthenticationServices{
     private final IUserRepository userRepository;
     private final IEtudiantRepository etudiantRepository;
+    private final IAdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final IJWTServices jwtServices;
@@ -65,6 +67,11 @@ public class IAuthenticationServicesImpl implements IAuthenticationServices{
             return authenticationResponse;
         }
         return null;
+    }
+
+    @Override
+    public Admin registerAdmin(Admin admin) {
+        return adminRepository.save(admin);
     }
 
 
