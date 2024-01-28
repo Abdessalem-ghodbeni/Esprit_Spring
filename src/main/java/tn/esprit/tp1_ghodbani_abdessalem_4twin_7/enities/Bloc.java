@@ -24,10 +24,12 @@ public class Bloc implements Serializable {
     @Column(name = "capaciteBloc")
     private String capaciteBloc;
 @JsonIgnore
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "bloc")
+     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "bloc")
+
     private Set<Chambre> chambres;
-    @JsonIgnore
+   @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
+
     private Foyer foyer;
 
 

@@ -19,7 +19,7 @@ public class Chambre implements Serializable {
 
     @Column(name = "numeroChambre")
     private long numeroChambre;
-    @Column(name = "TypeC")
+    @Enumerated(EnumType.STRING)
     private TypeChambre typeC;
 
     @ManyToOne

@@ -1,5 +1,6 @@
 package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +23,6 @@ public class Universite implements Serializable {
     @Column(name = "adresse")
     private String adresse;
     @OneToOne
+    @JsonIgnore
     private Foyer foyer;
 }

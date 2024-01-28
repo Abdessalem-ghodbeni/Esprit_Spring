@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -28,7 +29,10 @@ public class Etudiant extends User {
 
      @Temporal(TemporalType.DATE)
     private Date dateNaissance;
+//    @Temporal(TemporalType.DATE)
+//    private LocalDate dateEffet;
 
-@ManyToMany(cascade = CascadeType.ALL)
+
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Reservation>reservations;
 }

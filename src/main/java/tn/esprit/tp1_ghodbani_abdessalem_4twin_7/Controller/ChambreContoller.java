@@ -12,64 +12,59 @@ import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services.IChambreServices;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/chambre")
+@RequestMapping(path = "/chambre")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ChambreContoller {
     private final IChambreServices chambreService;
 
     @GetMapping(path = "/all_chambres")
-    public ResponseEntity<?> getAllChambre(){
+    public ResponseEntity<?> getAllChambre() {
 
-        try{
-            List<Chambre> chambres=chambreService.retrieveAllChambres();
-            if (chambres.isEmpty()){
+        try {
+            List<Chambre> chambres = chambreService.retrieveAllChambres();
+            if (chambres.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Liste est vide ");
             }
             return ResponseEntity.ok(chambres);
-        }
-        catch (RessourceNotFound exception){
+        } catch (RessourceNotFound exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("quelque chose mal passé");
         }
     }
 
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Chambre>AjouterNouvelleChambre(@RequestBody Chambre chambre){
+    public ResponseEntity<Chambre> AjouterNouvelleChambre(@RequestBody Chambre chambre) {
         try {
-            Chambre nouvelleChambre=chambreService.addChambre(chambre);
-            return new ResponseEntity<>(nouvelleChambre,HttpStatus.CREATED);
-        }
-        catch (RessourceNotFound exception){
+            Chambre nouvelleChambre = chambreService.addChambre(chambre);
+            return new ResponseEntity<>(nouvelleChambre, HttpStatus.CREATED);
+        } catch (RessourceNotFound exception) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping(path = "/edit")
-    public ResponseEntity<?> EditChambre(@RequestBody Chambre chambre){
-        try{
+    public ResponseEntity<?> EditChambre(@RequestBody Chambre chambre) {
+        try {
+            Chambre nouvelleChambre = chambreService.updateChambre(chambre);
+            return new ResponseEntity<>(nouvelleChambre, HttpStatus.OK);
 
-             Chambre nouvelleChambre=chambreService.updateChambre(chambre);
-         return new ResponseEntity<>(nouvelleChambre,HttpStatus.OK);
-
+        } catch (RessourceNotFound exception) {
+            return new ResponseEntity<>("une chose mal passé", HttpStatus.NOT_FOUND);
         }
-        catch (RessourceNotFound exception){
-            return new ResponseEntity<>("une chose mal passé",HttpStatus.NOT_FOUND);
-        }
-
 
 
     }
+
     @GetMapping(path = "/recupere/{id}")
-    public ResponseEntity<?> getChambreById(@PathVariable("id") long idChambre){
-        try{
-            Chambre chambre=chambreService.retrieveChambre(idChambre);
-            if (chambre==null){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Chambre introuvable avec cet id "+idChambre);
+    public ResponseEntity<?> getChambreById(@PathVariable("id") long idChambre) {
+        try {
+            Chambre chambre = chambreService.retrieveChambre(idChambre);
+            if (chambre == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Chambre introuvable avec cet id " + idChambre);
             }
-           return ResponseEntity.ok(chambre);
-        }
-        catch (RessourceNotFound exception){
+            return ResponseEntity.ok(chambre);
+        } catch (RessourceNotFound exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("quelque chose mal passé");
         }
     }

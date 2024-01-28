@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.Exception.RessourceNotFound;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities.Reservation;
 import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services.IReservationService;
+import tn.esprit.tp1_ghodbani_abdessalem_4twin_7.services.IReservationServiceImpl;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @RequestMapping(path = "/reservations")
 @Tag(name = "Reservation")
 public class ReservationContoller {
-    public final IReservationService reservationService;
+    public final IReservationServiceImpl reservationService;
 
     @GetMapping(path = "/get/all")
     public ResponseEntity<?> getAllReservation() {
@@ -90,7 +91,7 @@ public class ReservationContoller {
             }
     )
 
-    @PostMapping(path = "ajouter/affecter/reservation/{idChambre}")
+    @PostMapping(path = "ajouter/affecter/reservation/{idChambre}/{cin}")
     public ResponseEntity<?> ajouterReservation(@PathVariable Long idChambre, @PathVariable Long cin) {
        try
        {

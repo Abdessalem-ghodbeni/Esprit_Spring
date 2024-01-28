@@ -44,7 +44,9 @@ public class IReservationServiceImpl implements IReservationService {
             reservationUpdated.setFinAnneUniversitaire(res.getFinAnneUniversitaire());
             reservationUpdated.setEstActive(res.isEstActive());
             reservationUpdated.setEtudiants(res.getEtudiants());
-            return reservationUpdated;
+            reservationUpdated.setNumReservation(res.getNumReservation());
+            return  reservationRepository.save(reservationUpdated);
+
         } else {
             throw new RessourceNotFound("Failed update ! pas de reservation avec cet id " + res.getIdReservation());
         }
@@ -78,7 +80,6 @@ public class IReservationServiceImpl implements IReservationService {
     @Transactional
     @Override
     public Reservation ajouterReservation(long idChambre, long cinEtudiant) {
-//
         Chambre chambre = chambreRepository.findById(idChambre).orElse(null);
 
         Etudiant etudiant = etudiantRepository.findByCin(cinEtudiant);

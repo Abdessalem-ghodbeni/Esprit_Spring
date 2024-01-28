@@ -34,7 +34,7 @@ public class BlocServiceImp implements IBlocService {
             Bloc blocIsExisting = isHere.get();
             blocIsExisting.setNomBloc(bloc.getNomBloc());
             blocIsExisting.setCapaciteBloc(bloc.getCapaciteBloc());
-            return blocIsExisting;
+            return blocRepository.save(blocIsExisting) ;
         } else {
             throw new RessourceNotFound("pas de bloc avec cet id : " + bloc.getIdBloc());
         }

@@ -27,7 +27,7 @@ public class Reservation implements Serializable {
     private LocalDate debutAnneeUniversitaire;
     @Temporal(TemporalType.DATE)
     private LocalDate finAnneUniversitaire;
-    @Column(name = "estValide")
+    @Column(name="estValide")
      boolean estActive;
     @ManyToMany(  mappedBy = "reservations")
     private Set<Etudiant> etudiants;

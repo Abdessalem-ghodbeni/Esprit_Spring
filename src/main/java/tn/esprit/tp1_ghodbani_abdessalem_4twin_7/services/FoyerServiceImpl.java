@@ -57,24 +57,29 @@ public class FoyerServiceImpl implements IFoyerService {
     }
 
 
+
     @Override
     public Foyer updateFoyer(Foyer f) {
-//        return foyerRepository.save(f);
+//        return foyerRepository.save(f); avec cette methode meme si le foyer n'xiste pas il va le crrer
         Optional<Foyer> exixstingFoyerToUpdated = foyerRepository.findById(f.getIdFoyer());
         if (exixstingFoyerToUpdated.isPresent()) {
             Foyer foyerReadyToUpdate = exixstingFoyerToUpdated.get();
             foyerReadyToUpdate.setNomFoyer(f.getNomFoyer());
             foyerReadyToUpdate.setCapaciteFoyer(f.getCapaciteFoyer());
-            foyerReadyToUpdate.setUniversite(f.getUniversite());
-            foyerReadyToUpdate.setBlocs(f.getBlocs());
-            return foyerReadyToUpdate;
+//            foyerReadyToUpdate.setUniversite(f.getUniversite());
+            if (f.getUniversite() != null) {
+                foyerReadyToUpdate.setUniversite(f.getUniversite());
+            }
+
+            // Mise à jour des blocs si la liste n'est pas vide
+            if (f.getBlocs() != null && !f.getBlocs().isEmpty()) {
+                foyerReadyToUpdate.setBlocs(f.getBlocs());
+            }
+//            foyerReadyToUpdate.setBlocs(f.getBlocs());
+            return foyerRepository.save(foyerReadyToUpdate);
         } else {
             throw new RessourceNotFound("not found this foyer avec id " + f.getIdFoyer());
-        }
-
-
-
-    }
+        }}
     @Transactional
     @Override
     public Foyer ajouterFoyerEtAffecterUniversite(Foyer f, Long idUniversity) {

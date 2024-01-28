@@ -42,6 +42,7 @@ public class IChambreServices implements IChambreService {
             chambreToUpdated.setTypeC(c.getTypeC());
             chambreToUpdated.setReservations(c.getReservations());
             chambreToUpdated.setBloc(c.getBloc());
+            chambreRepository.save(chambreToUpdated);
             return chambreToUpdated;
         } else {
             throw new RessourceNotFound("Chambre avec id : " + c.getIdChambre() + "n'existe pas ");

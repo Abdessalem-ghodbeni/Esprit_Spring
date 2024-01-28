@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/logement")
+@CrossOrigin(origins = "*")
 public class FoyerController {
     private final FoyerServiceImpl foyerService;
 
@@ -57,7 +58,7 @@ public class FoyerController {
             foyerService.removeFoyer(foyerId);
             return ResponseEntity.ok("Foyer deleted Successfuly");
         } catch (RessourceNotFound e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ce foyer est introuvable avec id " + foyerId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
 

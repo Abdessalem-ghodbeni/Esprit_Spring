@@ -1,5 +1,6 @@
 package tn.esprit.tp1_ghodbani_abdessalem_4twin_7.enities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,8 @@ public class Foyer implements Serializable {
 
 @OneToOne(mappedBy = "foyer")
     private Universite universite;
-@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE},mappedBy = "foyer", fetch =FetchType.EAGER)
+ @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REMOVE},mappedBy = "foyer", fetch =FetchType.EAGER)
+
     private Set<Bloc>blocs;
 //pour renommer la clé qui serat crrer on ajout joincolumns(......)
 //avec @oneToMany une table d'association sera créer'

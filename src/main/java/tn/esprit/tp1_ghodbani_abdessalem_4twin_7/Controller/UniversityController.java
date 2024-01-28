@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/university")
 @Tag(name = "University")
+@CrossOrigin(origins = "*")
 public class UniversityController {
     private final UniversityServiceImp universityService;
 
@@ -92,7 +93,7 @@ public class UniversityController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("university with id" + idUniversity + "n'existe pas ");
         }
     }
-
+    @CrossOrigin(origins = "*")
     @Operation(description = "cet api nous permet d'affecter un foyer a une université ", summary = "notre fameuse api prend deux paramétre nom université et idFoyer faire chercher le foyer avec id specifié si il esxite alors on passe a chercher université par nom et par suite on affecter ce foyer a cette université ", responses = {@ApiResponse(description = "succes", responseCode = "200"), @ApiResponse(description = "failed !", responseCode = "404")})
     @PutMapping("affecterFoyerUniversity/{idFoyer}/{nomUniversity}")
     public ResponseEntity<?> affecterFoyerForUniversity(@PathVariable("idFoyer") long idFoyer, @PathVariable("nomUniversity") String nomUniversity) {

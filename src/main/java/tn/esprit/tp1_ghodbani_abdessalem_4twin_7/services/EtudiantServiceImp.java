@@ -34,7 +34,7 @@ public class EtudiantServiceImp implements IEtudiantServices {
             etudiantUpdated.setDateNaissance(e.getDateNaissance());
             etudiantUpdated.setEcole(e.getEcole());
             etudiantUpdated.setReservations(e.getReservations());
-            return etudiantUpdated;
+            return etudiantRepository.save(etudiantUpdated);
 
         } else {
             throw new RessourceNotFound("etudiant not found avec id : " + e.getId());
